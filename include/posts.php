@@ -23,14 +23,6 @@
 	$query = mysql_query($sqlCommand) or die (mysql_error()); 
 
 	}
- function filterwords($body){
- $filterWords = array('darn','fuck','mother fucker','motherfucking','motherfucker','shit','poo','goddamn','dick','dicks','fux','whore','vagina','vaginas','pussy','damn','tit','tits','crap','fucker','fuckable','fuckboy','fucky','nigger','negro','ass','boobies','boobs','porn','fucking','retarded','sex','69','truffle butter','sexy','poussey','cum','cumm','arse','arsehole','arse hole','g-spot','g spot','nigga' );
- $filterCount = sizeof($filterWords);
- for($i=0; $i<$filterCount; $i++){
-  $body = preg_replace('/\b'.$filterWords[$i].'\b/ie',"str_repeat('*',strlen('$0'))",$body);
- }
- return $body;
- }
 ?>
 
 <div class="masonry-grid">
@@ -54,8 +46,6 @@
 		</form>
 	</div>
 	<?php
-		//Allow use of user defined functions
-		include('functions.php');
 
 		$username = $currentuser['username'];
 		$getposts = mysql_query("SELECT * FROM posts WHERE user_posted_to= '$username' ORDER BY id DESC") or die (mysql_error());
