@@ -39,7 +39,7 @@
         <?php
         //Allow use of user defined functions
         if ($category == 'all') {
-        $gethelp = mysql_query("SELECT * FROM helpwanted WHERE id>= '0' ORDER BY id DESC") or die (mysql_error());
+        $gethelp = mysql_query("SELECT * FROM helpwanted WHERE id> '0' ORDER BY id DESC") or die (mysql_error());
         while ($row = mysql_fetch_assoc($gethelp)) {
             $username = $row['added_by'];
             getInfo($username);
