@@ -18,13 +18,13 @@
 	$sqlCommand = "INSERT INTO helpwanted VALUES('', '$helprequest','$date_added','$added_by','$page')";  
 	$query = mysql_query($sqlCommand) or die (mysql_error()); 
 	}
- function filterwords($helpwanted){
+ function filterwords($helprequest){
  $filterWords = array('darn','fuck','mother fucker','motherfucking','motherfucker','shit','poo','goddamn','dick','dicks','fux','whore','vagina','vaginas','pussy','damn','tit','tits','crap','fucker','fuckable','fuckboy','fucky','nigger','negro','ass','boobies','boobs','porn','fucking','retarded','sex','69','truffle butter','sexy','poussey','cum','cumm','arse','arsehole','arse hole','g-spot','g spot','nigga' );
  $filterCount = sizeof($filterWords);
  for($i=0; $i<$filterCount; $i++){
-  $body = preg_replace('/\b'.$filterWords[$i].'\b/ie',"str_repeat('*',strlen('$0'))",$helpwanted);
+  $helprequest = preg_replace('/\b'.$filterWords[$i].'\b/ie',"str_repeat('*',strlen('$0'))",$helprequest);
  }
- return $body;
+ return $helprequest;
  }
 ?>
 
@@ -41,4 +41,40 @@
 			</div>
 		</form>
 	</div>
+	
+		<?php
+		//Allow use of user defined functions
+		$gethelp = mysql_query("SELECT * FROM helpwanted WHERE page= '$category' ORDER BY id DESC") or die (mysql_error());
+			
+		while ($row = mysql_fetch_assoc($gethelp)) {
+			$username = $row['added_by'];
+			getInfo($username);
+			//echo $user_info['email'];
+			echo filterwords( '
+			<div class="grid-item card">
+				<div class="card-content">
+					<div><!-- Name and avatar of post -->
+						<div class="right">
+							<i class="material-icons grey-text hover-icon">flag</i>
+						</div>
+						<a href="profile.php?u='.$user_info['username'].'">
+						<img src="'.$user_info['avatar'].'" class="circle" style="width: 50px;">
+						<div style="display: inline-block; position: relative; bottom: 4px; left: 11px; overflow: visible;">
+							<span class="title black-text">'.$user_info['first_name'].' '.$user_info['last_name'].'</span>
+						</a>
+							<p style="position: relative; bottom: 5px;">'.$row['date_added'].'</p>
+						</div>
+					</div>
+					<div style="padding-top: 5px;">
+						<p style="line-height: 24px;">'.htmlspecialchars($row['helprequest']).'</p>
+					</div>
+				</div>
+				<div class="card-action">
+					<a href="#" class="teal-text">Reply</a>
+				</div>
+			</div>
+			');
+		}
+	?>
+	
 </div>
