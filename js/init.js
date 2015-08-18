@@ -17,3 +17,8 @@ $(document).ready( function() {
 	gutter: 10
 	});
 });
+
+//Initialize modals
+$(document).ready(function(){
+	$('.modal-trigger').leanModal();
+});
