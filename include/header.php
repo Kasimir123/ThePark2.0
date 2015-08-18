@@ -16,15 +16,16 @@
 
 		<ul class="right hide-on-med-and-down">
 			<?php
-			//Add links at top for loggin in and out, depending on if the user has already logged in
-			if (isset($_SESSION['user_login'])) {
-				echo '<a class="dropdown-button black-text" href="#" data-activates="headerdrop"><img src="'.$sesuser['avatar'].'" id="mediumavatar"/></a>';
-			} else {
-				echo '<li><a class="modal-trigger" href="#loginmodal">Log In</a></li>';
-				echo '<li><a class="modal-trigger" href="#signupmodal">Sign Up</a></li>';
-			}
+				//Add links at top for loggin in and out, depending on if the user has already logged in
+				if (isset($_SESSION['user_login'])) {
+					echo '<i class="material-icons" style="display: inline-block;">notifications</i>';
+					echo '<a class="dropdown-button black-text" href="#" data-activates="headerdrop" style="display: inline-block;"><img src="'.$sesuser['avatar'].'" id="mediumavatar"/></a>';
+				} else {
+					echo '<li><a class="modal-trigger" href="#loginmodal">Log In</a></li>';
+					echo '<li><a class="modal-trigger" href="#signupmodal">Sign Up</a></li>';
+				}
 			?>
-			
+
 			<!-- Dropdown menu -->
 			<ul id='headerdrop' class='dropdown-content'>
 				<li><a href="profile.php">Profile</a></li>
@@ -70,9 +71,3 @@
 		<?php include('include/signup.html');?>
 	</div>
 </div>
-
-<script type="text/javascript">
-$(document).ready(function(){
-	$('.modal-trigger').leanModal();
-});
-</script>
