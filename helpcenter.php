@@ -60,9 +60,11 @@ if (!isset($_SESSION['user_login'])) {
 	</ul>
 	
 	<!-- connect to post help -->
+	<div>
 	<?php 
 	include('include/posthelp.php');
 	?>
+	</div>
 
 </body>
 
