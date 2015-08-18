@@ -7,4 +7,3 @@
 - Global chat
 - Commenting on posts
 - Make auto generating links for posts section
-# ThePark2.0
