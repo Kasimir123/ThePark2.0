@@ -24,14 +24,15 @@
 				echo '<li><a class="modal-trigger" href="#signupmodal">Sign Up</a></li>';
 			}
 			?>
-		</ul>
-
-		<!-- Dropdown menu -->
-		<ul id='headerdrop' class='dropdown-content'>
-			<li><a href="profile.php">Profile</a></li>
-			<li><a href="settings.php">Settings</a></li>
-			<!--<li class="divider"></li>-->
-			<li><a class="modal-trigger" href="php/logout.php">Log Out</a></li>
+			
+			<!-- Dropdown menu -->
+			<ul id='headerdrop' class='dropdown-content'>
+				<li><a href="profile.php">Profile</a></li>
+				<li><a href="helpcenter.php">Help Center</a></li>
+				<li class="divider"></li>
+				<li><a href="settings.php">Settings</a></li>
+				<li><a class="modal-trigger" href="php/logout.php">Log Out</a></li>
+			</ul>
 		</ul>
 
 		<!-- Add links to hamburger menu for mobile devices -->
@@ -41,6 +42,8 @@
 			if (isset($_SESSION['id'])) {
 				echo '<li><a href="profile.php">Profile</a></li>';
 				echo '<li><a href="settings.php">Settings</a></li>';
+				echo '<li class="divider"></li>';
+				echo '<li><a href="helpcenter.php">Help Center</a></li>';
 				echo '<li><a class="modal-trigger" href="php/logout.php">Log Out</a></li>';
 			} else {
 				echo '<li><a class="modal-trigger" href="#loginmodal">Log In</a></li>';
