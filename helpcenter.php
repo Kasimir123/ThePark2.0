@@ -58,6 +58,11 @@ if (!isset($_SESSION['user_login'])) {
 		<li><a href="helpcenter.php?c=visual%20arts">Visual Arts</a></li>
 		<li><a href="helpcenter.php?c=technology">Technology</a></li>
 	</ul>
+	
+	<!-- connect to post help -->
+	<?php 
+	include('include/posthelp.php');
+	?>
 
 </body>
 
