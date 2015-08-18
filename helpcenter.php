@@ -61,4 +61,17 @@ if (!isset($_SESSION['user_login'])) {
 
 </body>
 
+<script type="text/javascript">
+
+$('.dropdown-button').dropdown({
+      inDuration: 300,
+      outDuration: 225,
+      constrain_width: false, // Does not change width of dropdown to that of the activator
+      hover: true, // Activate on hover
+      belowOrigin: false // Displays dropdown below the button
+    }
+  );
+
+</script>
+
 </html>
