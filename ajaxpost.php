@@ -8,7 +8,8 @@ $user = $sesuser['username'];
 
 
 	$message = $_POST['messages'];
-	mysql_query("INSERT INTO messages VALUES ('','$message','$user') ");
+	$time = date('Y-m-d H:i:s');
+	mysql_query("INSERT INTO messages VALUES ('','$message','$user','$time') ");
 	echo $message;
 
 ?>
