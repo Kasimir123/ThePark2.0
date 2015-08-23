@@ -33,7 +33,7 @@
 	<div class="container z-depth-1" style="background: #f9f9f9;">
 
 <!-- display -->
-<div id="messages">
+<div id="messages" style="height: 400px; width: 100%; overflow:auto;">
 </div>
 
 <hr />
