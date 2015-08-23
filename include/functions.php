@@ -49,4 +49,29 @@ function filterwords($helprequest){
 	return $helprequest;
 }
 
+//Convert any timestamp into easily readable relative times, ex 'Just now', '2m', '4h'
+function easyTime($timestamp) {
+    $timestamp = strtotime($timestamp.' EDT');
+    $currenttime = time();
+    $messAge = $currenttime - $timestamp;
+
+    global $easyTime;
+
+    if ($messAge < '60') {
+        $easyTime = 'Just now';
+    } else if ($messAge/60 < '60') {
+        $easyTime = floor($messAge/60).'m';
+    } else if ($messAge/3600 < '24') {
+        $easyTime = floor($messAge/3600).'h';
+    } else if ($messAge/86400 < '7') {
+        $easyTime = floor($messAge/86400).'d';
+    } else if ($messAge/605500 < '52') {
+        $easyTime = floor($messAge/605500).'w';
+    } else {
+        $easyTime = floor($messAge/31536000).'y';
+    }
+    
+    return $easyTime;
+}
+
 ?>
