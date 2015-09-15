@@ -1,28 +1,32 @@
-<?php
-
-include('../include/dbcon.php');
-
-//Create variables from form
-$firstname = $_POST['firstname'];
-$lastname = $_POST['lastname'];
-$email = $_POST['email'];
-$username = $_POST['username'];
-$password = $_POST['password'];
-$md5 = md5($password);
-$d = date("Y-m-d");
-
-//SQL insert query
-$sql_signup = "INSERT INTO users (first_name, last_name, email, username, password,sign_up_date) VALUES ('$firstname','$lastname','$email','$username','$md5','$d')";
-
-//Perform query
-if (mysql_query($sql_signup)) {
-
-    //Set id session variable
-    session_start();
-    $_SESSION['user_login']=$username;
-
-    header('Location: ../profile.php');
-}
-
-
-?>
+<div style="margin: 0 auto; padding: 0px 80px 20px 80px;">
+    <form action="php/signup.php" method="post" class="col s12">
+        <div class="row">
+            <div class="input-field col s6">
+                <input id="firstname" type="text" class="validate" name="firstname">
+                <label for="firstname">First Name</label>
+            </div>
+            <div class="input-field col s6">
+                <input id="lastname" type="text" class="validate" name="lastname">
+                <label for="lastname">Last Name</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s6">
+                <input id="email" type="email" class="validate" name="email">
+                <label for="email">Email</label>
+            </div>
+            <div class="input-field col s6">
+                <input id="username" type="text" class="validate" name="username" autocomplete="off">
+                <label for="username">Username</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="password" type="password" class="validate" name="password" autocomplete="off">
+                <label for="password">Password</label>
+            </div>
+        </div>
+        <button type="submit" class="green waves-effect waves-light btn">Sign Up</button>
+        <a class="waves-effect waves-dark btn-flat" onmouseup="$('#signupmodal').closeModal();">Cancel</a>
+    </form>
+</div>
