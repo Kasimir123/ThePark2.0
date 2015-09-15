@@ -10,6 +10,9 @@ mysql_select_db("a4028871_test2") or die("Couldn't select DB") ;
 //Start session
 session_start();
 
+global $currentuser;
+global $sesuser;
+
 //Get id from either session variable or url and set as $currentuser
 if ($_GET['u']) {
     $currentuser = $_GET['u'];
