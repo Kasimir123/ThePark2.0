@@ -39,28 +39,44 @@
 			</div>
 		</div>
 	</div>
-
+	
+	<!-- Change avatar variables -->
+	<?php 
+		$user = $sesuser['username'];
+		$updateavatar = @$_POST['updateavatar'];
+		
+	if ($updateavatar) {
+	$avatar = $_POST['avatar'];
+	$info_submit_query = mysql_query("UPDATE users SET avatar='$avatar' WHERE username='$user'");	
+	header("Location: profile.php");
+	}
+	
+	?>
+	
+	
 	<div id="profile" class="col s12" style="margin: 0px 100px">
 		<!-- Change avatar card -->
+		<form method="post">
 		<div class="card">
 			<div class="card-content">
 				<img src="<?php echo $sesuser['avatar'];?>" alt="" class="circle" style="width: 60px;">
 				<h5 style="display: inline; position: relative; bottom: 20px; left: 15px;">Change avatar</h5>
-				<input type="text" name="fname" placeholder="Image URL" style="margin-top: 8px; margin-bottom: 0px;" />
+				<input type="text" name="avatar" placeholder="Image URL" style="margin-top: 8px; margin-bottom: 0px;" />
 			</div>
 			<div class="card-action">
-            	<a href="#" class="teal-text">Update</a>
+            	<input type="submit" name="updateavatar" value="Update">
             </div>
+            </form>
 		</div>
 		
 		<!-- Bio variables -->
 <?php
-	$user = $sesuser['username'];
 	$updateinfo = @$_POST['updatebio'];
 
 if ($updateinfo) {
 	$bio = $_POST['bio'];
 	$info_submit_query = mysql_query("UPDATE users SET bio='$bio' WHERE username='$user'");
+	header("Location: profile.php");
 	
 }
 	
@@ -84,8 +100,8 @@ else
 		</div>
 	</div>
 	</form>
-	<div id="security" class="col s12">Test 3</div>
-	<div id="notifications" class="col s12">Test 4</div>
+	<div id="security" class="col s12">T</div>
+	<div id="notifications" class="col s12">Tes</div>
 	<div id="other" class="col s12">Test 5</div>
 </div>
 
