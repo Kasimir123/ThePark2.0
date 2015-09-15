@@ -1,223 +1,307 @@
-<?php
+    <?php
 
-include('include/dbcon.php');
+    include('include/dbcon.php');
 
-//Redirect user to main page if not signed in
-if (!isset($_SESSION['user_login'])) {
-	header('Location: index.php');
-}
+    //Redirect user to main page if not signed in
+    if (!isset($_SESSION['user_login'])) {
+        header('Location: index.php');
+    }
 
-//Redirect user to main page if requested user doesn't exist
-$currentusername = $currentuser['username'];
-$sql_find_username = mysql_query("SELECT username FROM users WHERE username = '$currentusername'");
-if (mysql_num_rows($sql_find_username) == 0) {
-	header('Location: index.php');
-}
-$user = $sesuser['username'];
-?>
+    //Redirect user to main page if requested user doesn't exist
+    $currentusername = $currentuser['username'];
+    $sql_find_username = mysql_query("SELECT username FROM users WHERE username = '$currentusername'");
+    if (mysql_num_rows($sql_find_username) == 0) {
+        header('Location: index.php');
+    }
+    $user = $sesuser['username'];
+    ?>
 
-<html>
-<head>
+    <html>
+    <head>
 
-<?php include('include/import.php'); ?>
+    <?php include('include/import.php'); ?>
 
-<style>
+    <style>
 
-#coverphoto {
-		height: 470px;
-		background-image: url(<?php echo $currentuser['cover'];?>);
-		background-size: cover;
-		background-position: 50% 50%;
-		/*
-		-webkit-box-shadow: inset 0px 17px 5px -15px rgba(0,0,0,0.2);
-		   -moz-box-shadow: inset 0px 17px 5px -15px rgba(0,0,0,0.2);
-				box-shadow: inset 0px 17px 5px -15px rgba(0,0,0,0.2);*/
-}
+    .main {
+        transition: ease-in-out all .3s;
+    }
 
-#gradient {
-		height: inherit;
-		background: rgba(0,0,0,.5);
-		background: linear-gradient(0deg, rgba(0,0,0,.4), rgba(0,0,0,.1), rgba(0,0,0,0));
-		position: relative;
-}
+    #coverphoto {
+            height: 470px;
+            background-image: url(<?php echo $currentuser['cover'];?>);
+            background-size: cover;
+            background-position: 50% 50%;
+            transition: .3s ease-in-out all;
+            /*
+            -webkit-box-shadow: inset 0px 17px 5px -15px rgba(0,0,0,0.2);
+                 -moz-box-shadow: inset 0px 17px 5px -15px rgba(0,0,0,0.2);
+                    box-shadow: inset 0px 17px 5px -15px rgba(0,0,0,0.2);*/
+    }
 
-#info {
-		color: #FFF;
-		width: 100%;
-		text-align: center;
-		position: absolute;
-		bottom: 0;
-		padding: 25px;
-}
+    #gradient {
+            height: inherit;
+            background: rgba(0,0,0,.5);
+            background: linear-gradient(0deg, rgba(0,0,0,.4), rgba(0,0,0,.1), rgba(0,0,0,0));
+            position: relative;
+    }
 
-#profileavatar {
-		width: 150px; border-radius: 50%;
-		-webkit-box-shadow: 0px 2px 8px 0px rgba(0,0,0,0.6);
-			 -moz-box-shadow: 0px 2px 8px 0px rgba(0,0,0,0.6);
-						box-shadow: 0px 2px 8px 0px rgba(0,0,0,0.6);
-}
+    #info {
+            color: #FFF;
+            width: 100%;
+            text-align: center;
+            position: absolute;
+            bottom: 0;
+            padding: 25px;
+    }
 
-#name { font-size: 27pt; font-weight: 300; }
+    #profileavatar {
+            width: 150px; border-radius: 50%;
+            transition: ease-in-out all .3s;
+            -webkit-box-shadow: 0px 2px 8px 0px rgba(0,0,0,0.6);
+                 -moz-box-shadow: 0px 2px 8px 0px rgba(0,0,0,0.6);
+                            box-shadow: 0px 2px 8px 0px rgba(0,0,0,0.6);
+    }
 
-#bio { font-size: 14pt; position: relative; bottom: 8px; }
+    #name { font-size: 27pt; font-weight: 300; }
 
-.masonry-grid:after { content: ''; display: block;  clear: both; } /* clearfix */
-.masonry-grid { margin: 0 auto; }
-.grid-item { width: 49%; float: left; margin-bottom: 8px; }
+    #bio { font-size: 14pt; position: relative; bottom: 8px; }
 
-</style>
+    #tabcontainer {
+        padding: 5px 30px;
+    }
 
-</head>
-<body style=" height: 100%;">
+    #post-textarea {
+        height: 87px;
+        border: solid 1px #E0E0E0;
+        border-radius: 4px;
+        resize: none;
+        background: #FFF;
+    }
 
-<?php include('include/header.php'); ?>
+    .grid {
+        width: 100%;
+    }
 
-<div class="container z-depth-1" style="background: #f9f9f9;">
+    /* clearfix */
+    .grid:after {
+        content: '';
+        display: block;
+        clear: both;
+    }
 
-	<!-- Cover photo -->
-	<div id="coverphoto">
-			<div id="gradient">
-					<div id="info">
-							<img id="profileavatar" src="<?php echo $currentuser['avatar'];?>"/>
-							<h3 id="name"><?php echo $currentuser['first_name'].' '.$currentuser['last_name'];?></h3>
-							<h5 id="bio"><?php echo '@'.$currentuser['username'];?></h5>
-					</div>
-			</div>
-	</div>
+    .grid-item {
+        float: left;
+        transition: .3s ease-in-out all;
+        /* vertical gutter */
+        margin-bottom: 10px;
+    }
 
-	<!-- Tabs and content -->
-	<div id="tabs">
-		<div class="s12" style="margin-bottom: 12px;">
-			<ul class="tabs" style="width: 100px; background: #eaeaea;">
-				<li class="tab"><a href="#about">About</a></li>
-				<li class="tab"><a href="#interests">Interests</a></li>
-				<li class="tab"><a class="active" href="#posts">Posts</a></li>
-				<li class="tab"><a href="#photos">Photos</a></li>
-				<li class="tab"><a href="#places">Places</a></li>
-			</ul>
-		</div>
+    .grid-sizer,
+    .grid-item { width: 49%; }
 
-		<div style="padding: 5px 20px;"><!-- Container for content -->
+    @media ( max-width: 900px ) {
+        .grid-item {
+            width: 100%;
+        }
+    }
 
-			<!-- About tab -->
-			<div id="about" class="col s12">
-				<div class="row">
-					<div class="col s12 m6">
-						<div class="card">
-							<!-- Friends card -->
-							<div class="card-content">
-								<span class="card-title black-text">Friends</span>
-								<br/>
-								<style> #avatar { margin: 5px 5px 0px 5px; } </style>
-								<?php include('include/friends/all.php');?>
-							</div>
+    @media ( max-width: 700px ) {
+        .main {
+            width: 100%;
+        }
+        #tabcontainer {
+            padding: 5px 0px;
+        }
+        #profileavatar {
+            width: 120px;
+        }
+        #coverphoto {
+            height: 300px;
+        }
+    }
 
-							<div class="card-action">
-								<!-- Links -->
-								<a href="#friendsmodal" class="teal-text modal-trigger">See all friends</a>
-								<!-- send friend request -->
-								<?php
-									//Add friend script
-									$message = '';
+    #friendbtn {
+        display: inline;
+        padding: 0;
+    }
 
-									if (isset($_POST['addfriend'])) {
-										$user_to = $currentuser['username'];
-										$user_from = $sesuser['username'];
-									 
-										if ($user_to != $user_from) {
-											$create_request = mysql_query("INSERT INTO friend_requests (user_to, user_from) VALUES ('$user_to','$user_from')");
-											$message = "Your friend Request has been sent!";
-										}
-										echo $message; //This is temporary
-									}
+    </style>
 
-									//Remove friend and cancel request script
-									if (isset($_POST['removefriend'])) {
-										$user_to = $currentuser['username'];
-										$user_from = $sesuser['username'];
+    </head>
+    <body style=" height: 100%;">
 
-										$create_request = mysql_query("DELETE FROM friend_requests WHERE (user_from = '$user_from' AND user_to = '$user_to') OR (user_from = '$user_to' AND user_to = '$user_from')");
-										$message = "You are no longer friends.";
+    <?php include('include/header.php'); ?>
 
-										echo $message; //This is temporary
-									}
-								?>
-							</div>
+    <div class="container z-depth-1 main" style="background: #f9f9f9;">
 
-							<form action="<?php echo 'profile.php?u='.$username; ?>" method="POST">
+        <!-- Cover photo -->
+        <div id="coverphoto">
+                <div id="gradient">
+                        <div id="info">
+                                <img id="profileavatar" src="<?php echo $currentuser['avatar'];?>"/>
+                                <h3 id="name"><?php echo $currentuser['first_name'].' '.$currentuser['last_name'];?></h3>
+                                <h5 id="bio"><?php echo '@'.$currentuser['username'];?></h5>
+                        </div>
+                </div>
+        </div>
 
-								<?php
-									$friendButton = '';
+        <!-- Tabs and content -->
+        <div id="tabs" style="min-height: 534px;">
+            <div class="s12" style="margin-bottom: 12px;">
+                <ul class="tabs" style="width: 100px; background: #eaeaea;">
+                    <li class="tab"><a href="#about">About</a></li>
+                    <li class="tab"><a href="#interests">Interests</a></li>
+                    <li class="tab"><a class="active" href="#posts">Posts</a></li>
+                    <li class="tab"><a href="#photos">Photos</a></li>
+                    <li class="tab"><a href="#places">Places</a></li>
+                </ul>
+            </div>
 
-									if ($currentuser['username'] != $sesuser['username']) {
-										if (checkFriends($sesuser['username'],$currentuser['username'])) {
-											if (checkAccepted($sesuser['username'],$currentuser['username'])) {
-												//If the two users are already friends, create remove friend button
-												$friendButton = '<input type="submit" name="removefriend" value="Remove Friend">';
-											} else {
-												//If the other friend hasn't accepted yet, create cancel request button
-												$friendButton = '<input type="submit" name="removefriend" value="Cancel Request">';
-											}
-										} else {
-											//If they are friends, create add friend button
-											$friendButton = '<input type="submit" name="addfriend" value="Add Friend">';
-										}
-									}
+            <div id="tabcontainer"><!-- Container for content -->
 
-									echo "$friendButton";
-									
-								?>
+                <!-- About tab -->
+                <div id="about">
+                    <div class="row">
+                        <div class="masonry-container">
+                            <div class="grid">
+                                <div class="grid-sizer"></div>
 
-							</form>
-								
-							<!-- All friends modal -->
-							<div id="friendsmodal" class="modal modal-fixed-footer">
-								<div class="modal-content">
-									<!-- Title -->
-									<h5><?php $string = $currentuser['first_name']; echo $string.'\''.($string[strlen($string) - 1] != 's' ? 's' : '');?> friends</h5>
-									<br/>
-									<?php include('include/friends/formatted.php');?>
-								</div>
-								<div class="modal-footer">
-									<a href="#!" class="modal-action teal-text waves-effect waves-teal btn-flat" onmouseup="$('#friendsmodal').closeModal();">Done</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+                                <!-- Friends card -->
+                                <div class="card grid-item">
+                                    <div class="card-content">
+                                        <span class="card-title black-text">Friends</span>
+                                        <br/>
+                                        <style> #avatar { margin: 5px 5px 0px 5px; } </style>
+                                        <?php include('include/friends/all.php');?>
+                                    </div>
 
-			<!-- Interests tab -->
-			<div id="interests" class="col s12">Test 2</div>
+                                    <div class="card-action" style="padding: 14px 20px;">
+                                        <!-- Links -->
+                                        <a href="#friendsmodal" class="modal-trigger"><button class="white teal-text  btn-flat" style="padding: 0;">See all friends</button></a>
+                                        <!-- send friend request -->
+                                        <?php include('include/addfriend.php');?>
 
-			<!-- Posts tab -->
-			<div id="posts">
-				<?php include('include/posts.php');?>
-			</div>
+                                    <form action="<?php echo 'profile.php?u='.$username; ?>" method="POST" style="margin-bottom: 0; display: inline;">
 
-			<!-- Photos tab -->
-			<div id="photos" class="col s12">Test 4</div>
-			<!-- Places tab -->
-			<div  id="places" class="col s12">Test 5</div>
+                                        <?php
+                                            $friendButton = '';
 
-		</div>
-	</div>
-</div>
+                                            if ($currentuser['username'] != $sesuser['username']) {
+                                                if (checkFriends($sesuser['username'],$currentuser['username'])) {
+                                                    if (checkAccepted($sesuser['username'],$currentuser['username'])) {
+                                                        //If the two users are already friends, create remove friend button
+                                                        $friendButton = '<button type="submit" name="removefriend" id="friendbtn" class="white teal-text btn-flat">Unfriend</button>';
+                                                    } else {
+                                                        //If the other friend hasn't accepted yet, create cancel request button
+                                                        $friendButton = '<button type="submit" name="removefriend" id="friendbtn" class="white teal-text btn-flat">Cancel Request</button>';
+                                                    }
+                                                } else {
+                                                    //If they are friends, create add friend button
+                                                    $friendButton = '<button type="submit" name="addfriend" id="friendbtn" class="white teal-text btn-flat">Add Friend</button>';
+                                                }
+                                            }
+
+                                            echo $friendButton;
+                                            
+                                        ?>
+
+                                    </div>
+
+                                    </form>
+                                        
+                                    <!-- All friends modal -->
+                                    <div id="friendsmodal" class="modal modal-fixed-footer">
+                                        <div class="modal-content">
+                                            <!-- Title -->
+                                            <h5><?php $string = $currentuser['first_name']; echo $string.'\''.($string[strlen($string) - 1] != 's' ? 's' : '');?> friends</h5>
+                                            <br/>
+                                            <?php include('include/friends/formatted.php');?>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a href="#!" class="modal-action teal-text waves-effect waves-teal btn-flat" onmouseup="$('#friendsmodal').closeModal();">Done</a>
+                                        </div>
+                                    </div>
+                                </div>
 
 
+                                <div class="grid-item card">
+                                    <div class="card-content">
+                                        <span class="card-title black-text">Bio</span>
+                                        <br/>
+                                        <?php echo htmlspecialchars($currentuser['bio']);?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-<script>
+                <!-- Interests tab -->
+                <div id="interests" class="col s12">
+                    <!-- Hobbies  -->
+                    <div>
+                        <h6>Hobbies: </h1>
+                    </div> <br />
+                    <hr />
+                    <!-- Favorite Songs  -->
+                    <div>
+                        <h6>Favorite Songs: </h1>
+                    </div> <br />
+                    <hr />
+                    <!-- Favorite Movies  -->
+                    <div>
+                        <h6>Favorite Movies: </h1>
+                    </div> <br />
+                    <hr />
+                    <!-- Favorite Things To Do  -->
+                    <div>
+                        <h6>Things I Like To Do: </h1>
+                    </div> <br />
+                    <hr />
+                </div>
 
-$(document).ready( function() {
+                <!-- Posts tab -->
+                <div id="posts">
+                    <?php include('include/posts.php');?>
+                </div>
 
-$('.masonry-grid').masonry({
-	itemSelector: '.grid-item',
-	isFitWidth: true,
-	gutter: 10
-	});   
-});
+                <!-- Photos tab -->
+                <div id="photos" class="col s12">Test 4</div>
+                <!-- Places tab -->
+                <div  id="places" class="col s12">Test 5</div>
 
-</script>
+            </div>
+        </div>
+    </div>
 
-</body>
-</html>
+    <script>
+
+    $(document).ready(function() {
+        loadMsnry();
+    });
+
+    $('.tab').click(function() {
+        setTimeout(function() {
+            loadMsnry();
+        }, 1);
+    })
+
+    function loadMsnry() {
+        $('.grid').masonry({
+        percentPosition: true,
+        columnWidth: '.grid-sizer',
+        itemSelector: '.grid-item',
+        transitionDuration: 0,
+        gutter: 18
+        });
+    }
+
+    $('.loadcomments').click(function() {
+        loadMsnry();
+    })
+
+    </script>
+
+    </body>
+    </html>
