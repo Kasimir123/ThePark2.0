@@ -8,20 +8,44 @@ $lastname = $_POST['lastname'];
 $email = $_POST['email'];
 $username = $_POST['username'];
 $password = $_POST['password'];
-$md5 = md5($password);
+$md5 = hash('sha256', $password);
 $d = date("Y-m-d");
 
-//SQL insert query
+// username check
+
+$u_check = mysql_query("SELECT username FROM users WHERE username= '$username'");
+$check = mysql_num_rows($u_check);
+
+// email check
+
+$e_check = mysql_query("SELECT email From users WHERE email ='$email'");
+$email_check = mysql_num_rows($e_check);
+
 $sql_signup = "INSERT INTO users (first_name, last_name, email, username, password,sign_up_date) VALUES ('$firstname','$lastname','$email','$username','$md5','$d')";
 
-//Perform query
-if (mysql_query($sql_signup)) {
+if ($check == 0) {
+	if ($email_check == 0) {
+		if (strlen($username) > '4') {
+			if (strlen($password) > '7') {
+				if (mysql_query($sql_signup)) {
+					session_start();
+					$_SESSION['user_login']=$username;
 
-    //Set id session variable
-    session_start();
-    $_SESSION['user_login']=$username;
-
-    header('Location: ../profile.php');
+					header('Location: ../profile.php');
+				} else {
+					echo 'Failed to create account';
+				}
+			} else {
+				echo 'Password must be at least 8 characters long';
+			}
+		} else {
+			echo 'Username is too short';
+		}
+	} else {
+		echo 'This email has already been used';
+	}
+} else {
+	echo 'Username is taken';
 }
 
 
